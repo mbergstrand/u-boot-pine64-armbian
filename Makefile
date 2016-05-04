@@ -59,10 +59,10 @@ make_image:
 
 .PHONY: clean
 clean:
-	[[ -d u-boot-pine64 ]] && $(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
-	[[ -d arm-trusted-firmware ]] && $(MAKE) -C arm-trusted-firmware ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- clean
-	[[ -d sunxi-pack-tools ]] && $(MAKE) -C sunxi-pack-tools clean
-	@rm -f u-boot.bin bl31.bin scp.bin sys_config.fex u-boot-merged.bin u-boot-merged2.bin u-boot-with-dtb.bin
+	[[ -f u-boot-pine64/Makefile ]] && $(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
+	[[ -f arm-trusted-firmware/Makefile ]] && $(MAKE) -C arm-trusted-firmware ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- clean
+	[[ -f sunxi-pack-tools/Makefile ]] && $(MAKE) -C sunxi-pack-tools clean
+	@rm -f u-boot.bin bl31.bin scp.bin sys_config.fex u-boot-merged.bin u-boot-merged2.bin u-boot-with-dtb.bin dt.dts
 
 .PHONY: pine64_plus_defconfig
 pine64_plus_defconfig:
