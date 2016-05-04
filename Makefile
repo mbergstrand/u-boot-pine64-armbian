@@ -1,7 +1,7 @@
 # This program is licensed "as is" without any
 # warranty of any kind, whether express or implied.
 
-# Simple Makefile to create Pine64 u-boot in Armbian biuld script compatible way
+# Simple Makefile to create Pine64 u-boot in Armbian build script compatible way
 # Made by makefile noob, so no facepalms please
 
 SHELL := bash

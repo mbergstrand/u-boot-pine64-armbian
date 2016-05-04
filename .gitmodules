@@ -9,6 +9,3 @@
 [submodule "sunxi-pack-tools"]
 	path = sunxi-pack-tools
 	url = https://github.com/longsleep/sunxi-pack-tools.git
-[submodule "u-boot"]
-	path = u-boot
-	url = git://git.denx.de/u-boot.git
