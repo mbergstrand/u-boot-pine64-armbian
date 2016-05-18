@@ -1444,6 +1444,7 @@
             pinctrl-0 = <0x00000011>;
             clocks = <0x00000006 0x00000012>;
             supply = "vcc-pl";
+            supply_vol = <3300000>;
             ir_power_key_code = <0x0000004d>;
             ir_addr_code = <0x00004040>;
             status = "okay";
@@ -2423,18 +2424,24 @@
             compatible = "allwinner,budget_cooling";
             #cooling-cells = <0x00000002>;
             status = "okay";
-            state_cnt = <0x0000000a>;
+            state_cnt = <0x00000008>;
             cluster_num = <0x00000001>;
+                     /*  1152000   4 cores */
             state0 = <0x00119400 0x00000004>;
-            state1 = <0x0010d880 0x00000004>;
-            state2 = <0x00101d00 0x00000004>;
-            state3 = <0x000f6180 0x00000004>;
-            state4 = <0x000ea600 0x00000004>;
-            state5 = <0x000dea80 0x00000004>;
-            state6 = <0x000c7380 0x00000004>;
-            state7 = <0x0009e340 0x00000004>;
-            state8 = <0x0009e340 0x00000002>;
-            state9 = <0x0009e340 0x00000001>;
+                     /*  1008000   4 cores */
+            state1 = <0x000f6180 0x00000004>;
+                     /*   912000   4 cores */
+            state2 = <0x000dea80 0x00000004>;
+                     /*   816000   4 cores */
+            state3 = <0x000c7380 0x00000004>;
+                     /*   720000   4 cores */
+            state4 = <0x000afc80 0x00000004>;
+                     /*   624000   3 cores */
+            state5 = <0x00098580 0x00000003>;
+                     /*   528000   2 cores */
+            state6 = <0x00080e80 0x00000002>;
+                     /*   480000    1 core */
+            state7 = <0x00075300 0x00000001>;
             linux,phandle = <0x00000087>;
             phandle = <0x00000087>;
         };
@@ -2862,7 +2869,8 @@
             compatible = "arm,cortex-a53", "arm,armv8";
             reg = <0x00000000 0x00000000>;
             enable-method = "psci";
-            cpufreq_tbl = <0x00075300 0x000927c0 0x000afc80 0x000c7380 0x000dea80 0x000ea600 0x000f6180 0x00101d00 0x0010d880 0x00119400 0x00124f80 0x00148200>;
+         /* CPU Frequencies    408000     480000     504000     528000     576000     600000     624000     648000     672000     720000     768000     816000     864000     912000     960000    1008000    1056000    1104000    1152000    1200000    1344000 */
+            cpufreq_tbl = <0x000639C0 0x00075300 0x0007b0c0 0x00080e80 0x0008ca00 0x000927c0 0x00098580 0x0009e340 0x000a4100 0x000afc80 0x000bb800 0x000c7380 0x000d2f00 0x000dea80 0x000ea600 0x000f6180 0x00101d00 0x0010d880 0x00119400 0x00124f80 0x00148200>;
             clock-latency = <0x001e8480>;
             clock-frequency = <0x3c14dc00>;
             cpu-idle-states = <0x00000090 0x00000091 0x00000092>;
