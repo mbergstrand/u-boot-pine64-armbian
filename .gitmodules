@@ -2,10 +2,10 @@
 	path = u-boot-pine64
 	url = https://github.com/longsleep/u-boot-pine64.git
 	branch = pine64-hacks
-[submodule "arm-trusted-firmware"]
-	path = arm-trusted-firmware
-	url = https://github.com/apritzel/arm-trusted-firmware.git
-	branch = allwinner
 [submodule "sunxi-pack-tools"]
 	path = sunxi-pack-tools
 	url = https://github.com/longsleep/sunxi-pack-tools.git
+[submodule "arm-trusted-firmware"]
+	path = arm-trusted-firmware
+	url = https://github.com/longsleep/arm-trusted-firmware
+	branch = allwinner-a64-bsp
