@@ -43,12 +43,12 @@ make_image: u_boot_pine64 arm_trusted_firmware boot0img $(DTB)
 clean:
 	[ -f u-boot-pine64/Makefile ] && $(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
 	[ -f arm-trusted-firmware/Makefile ] && $(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 distclean
-	@rm -f u-boot-with-dtb.bin dt.dts dt.dtb
+	@rm -f u-boot-with-dtb.bin dt.dts dt.dtb $(DTB)
 
 .PHONY: pine64_plus_defconfig
 pine64_plus_defconfig:
-	@cp blobs/pine64.dts dt.dts
+	@cp blobs/pine64-plus.dts dt.dts
 
 .PHONY: pine64_defconfig
 pine64_defconfig:
-	@cp blobs/pine64noplus.dts dt.dts
+	@cp blobs/pine64.dts dt.dts
