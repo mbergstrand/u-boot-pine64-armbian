@@ -4,65 +4,46 @@
 # Simple Makefile to create Pine64 u-boot in Armbian build script compatible way
 # Made by makefile noob, so no facepalms please
 
+VERSION= 1
+PATCHLEVEL= 0
+SUBLEVEL= 0
+EXTRAVERSION= -armbian
+
 SHELL := bash
 
 # pass ccache to submodules make
 ccache := $(findstring ccache,$(CROSS_COMPILE))
 
-.PHONY: all
-all: submodules u_boot_pine64 arm_trusted_firmware sunxi_pack_tools make_image
+DTS := $(wildcard blobs/*.dts)
+DTB := $(patsubst blobs/%.dts, %.dtb, $(DTS))
 
-.PHONY: submodules
-.NOTPARALLEL: submodules
-submodules:
-	@git submodule update --init -f
+.PHONY: all
+all: make_image
 
 .PHONY: u_boot_pine64
 u_boot_pine64:
 	$(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-" sun50iw1p1_config
 	$(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE="$(ccache) arm-linux-gnueabihf-"
 
-#.PHONY: u_boot_mainline
-#u_boot_mainline:
-#	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" pine64_plus_defconfig
-#	$(MAKE) -C u-boot ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-"
-
 .PHONY: arm_trusted_firmware
 arm_trusted_firmware:
-	$(MAKE) -C arm-trusted-firmware ARCH=arm CROSS_COMPILE="$(ccache) aarch64-linux-gnu-" PLAT=sun50iw1p1 bl31
+	$(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 DEBUG=1 bl31
 
-.PHONY: sunxi_pack_tools
-sunxi_pack_tools:
-	$(MAKE) -C sunxi-pack-tools
+boot0img: boot0img.o
 
-#.PHONY: pine64_image
-#pine64_image:
-#	gcc pine64_image.c -o pine64_image
+%.dtb: blobs/%.dts
+	dtc -I dts -O dtb -o $@ $<
 
-.NOTPARALLEL: make_image
 .PHONY: make_image
-make_image:
-	@cp -avf u-boot-pine64/u-boot-sun50iw1p1.bin u-boot.bin
-	@cp -avf arm-trusted-firmware/build/sun50iw1p1/release/bl31.bin .
-	@cp blobs/scp.bin .
-	@cp blobs/sys_config.fex .
-	@cp blobs/boot0.bin .
-	@dtc -O dtb -o pine64.dtb dt.dts
-	@dtc -O dtb -o pine64-plus.dtb blobs/pine64.dts
-	@dtc -O dtb -o pine64.dtb blobs/pine64noplus.dts
-	@unix2dos sys_config.fex
-	sunxi-pack-tools/bin/script sys_config.fex
-	sunxi-pack-tools/bin/merge_uboot u-boot.bin bl31.bin u-boot-merged.bin secmonitor
-	sunxi-pack-tools/bin/merge_uboot u-boot-merged.bin scp.bin u-boot-merged2.bin scp
-	sunxi-pack-tools/bin/update_uboot_fdt u-boot-merged2.bin pine64.dtb u-boot-with-dtb.bin
-	sunxi-pack-tools/bin/update_uboot u-boot-with-dtb.bin sys_config.bin
+make_image: u_boot_pine64 arm_trusted_firmware boot0img $(DTB)
+	@dtc -I dts -O dtb -o dt.dtb dt.dts
+	./boot0img -B blobs/boot0.bin -s blobs/scp.bin -d arm-trusted-firmware/build/sun50iw1p1/debug/bl31.bin -u u-boot-pine64/u-boot.bin -e -F dt.dtb -o u-boot-with-dtb.bin
 
 .PHONY: clean
 clean:
-	[[ -f u-boot-pine64/Makefile ]] && $(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
-	[[ -f arm-trusted-firmware/Makefile ]] && $(MAKE) -C arm-trusted-firmware ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- clean
-	[[ -f sunxi-pack-tools/Makefile ]] && $(MAKE) -C sunxi-pack-tools clean
-	@rm -f u-boot.bin bl31.bin scp.bin sys_config.fex u-boot-merged.bin u-boot-merged2.bin u-boot-with-dtb.bin dt.dts
+	[ -f u-boot-pine64/Makefile ] && $(MAKE) -C u-boot-pine64 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean
+	[ -f arm-trusted-firmware/Makefile ] && $(MAKE) -C arm-trusted-firmware PLAT=sun50iw1p1 distclean
+	@rm -f u-boot-with-dtb.bin dt.dts dt.dtb
 
 .PHONY: pine64_plus_defconfig
 pine64_plus_defconfig:

@@ -1127,12 +1127,12 @@
             gmac0@0 {
                 linux,phandle = <0x0000009e>;
                 phandle = <0x0000009e>;
-                allwinner,pins = "PD18", "PD17", "PD19", "PD20", "PD11", "PD10", "PD13", "PD22", "PD23";
+                allwinner,pins = "PD18", "PD17", "PD16", "PD15", "PD20", "PD19", "PD11", "PD10", "PD9", "PD8", "PD13", "PD12", "PD21", "PD22", "PD23";
                 allwinner,function = "gmac0";
-                allwinner,pname = "gmac_txd0", "gmac_txd1", "gmac_txclk", "gmac_txen", "gmac_rxd0", "gmac_rxd1", "gmac_rxdv", "gmac_mdc", "gmac_mdio";
+                allwinner,pname = "gmac_txd0", "gmac_txd1", "gmac_txd2", "gmac_txd3", "gmac_txen", "gmac_gtxclk", "gmac_rxd0", "gmac_rxd1", "gmac_rxd2", "gmac_rxd3", "gmac_rxdv", "gmac_rxclk", "gmac_clkin", "gmac_mdc", "gmac_mdio";
                 allwinner,muxsel = <0x00000004>;
                 allwinner,pull = <0xffffffff>;
-                allwinner,drive = <0x00000003>;
+                allwinner,drive = <0xffffffff>;
                 allwinner,data = <0xffffffff>;
             };
             twi0@0 {
@@ -1933,74 +1933,28 @@
         };
         disp@01000000 {
             compatible = "allwinner,sun50i-disp";
-            reg = <0x00000000 0x01000000 0x00000000 0x00300000 0x00000000 0x01c0c000 0x00000000 0x000017fc 0x00000000 0x01ca0000 0x00000000 0x000010fc>;
+            reg = <0x00000000 0x01000000 0x00000000 0x00300000>,<0x00000000 0x01c0c000 0x00000000 0x000017fc>,<0x00000000 0x01c0d000 0x00000000 0x000007fc>,<0x00000000 0x01ca0000 0x00000000 0x000010fc>;
             interrupts = <0x00000000 0x00000056 0x00000104 0x00000000 0x00000057 0x00000104 0x00000000 0x00000059 0x00000104>;
-            clocks = <0x0000006a 0x0000006b 0x0000006c 0x0000006d 0x0000006e>;
-            status = "okay";
+            clocks = <0x0000006a 0x0000006b 0x0000006e 0x0000006c 0x0000006d>;
             device_type = "disp";
-            disp_init_enable = <0x00000001>;
-            disp_mode = <0x00000000>;
-            screen0_output_type = <0x00000003>;
-            screen0_output_mode = <0x0000000a>;
-            screen1_output_type = <0x00000003>;
-            screen1_output_mode = <0x0000000a>;
-            fb0_format = <0x00000000>;
-            fb0_width = <0x00000000>;
-            fb0_height = <0x00000000>;
-            fb1_format = <0x00000000>;
-            fb1_width = <0x00000000>;
-            fb1_height = <0x00000000>;
+            status = "okay";
         };
         lcd0@01c0c000 {
             compatible = "allwinner,sunxi-lcd0";
             pinctrl-names = "active", "sleep";
-            status = "okay";
             device_type = "lcd0";
-            lcd_used = <0x00000000>;
-            lcd_driver_name = "mb709_mipi";
-            lcd_backlight = <0x00000032>;
-            lcd_if = <0x00000004>;
-            lcd_x = <0x00000400>;
-            lcd_y = <0x00000258>;
-            lcd_width = <0x00000000>;
-            lcd_height = <0x00000000>;
-            lcd_dclk_freq = <0x00000037>;
-            lcd_pwm_used = <0x00000001>;
-            lcd_pwm_ch = <0x00000010>;
-            lcd_pwm_freq = <0x0000c350>;
-            lcd_pwm_pol = <0x00000001>;
-            lcd_pwm_max_limit = <0x000000fa>;
-            lcd_hbp = <0x00000078>;
-            lcd_ht = <0x00000604>;
-            lcd_hspw = <0x00000014>;
-            lcd_vbp = <0x00000017>;
-            lcd_vt = <0x0000027b>;
-            lcd_vspw = <0x00000002>;
-            lcd_dsi_if = <0x00000002>;
-            lcd_dsi_lane = <0x00000004>;
-            lcd_dsi_format = <0x00000000>;
-            lcd_dsi_eotp = <0x00000000>;
-            lcd_dsi_vc = <0x00000000>;
-            lcd_dsi_te = <0x00000000>;
-            lcd_frm = <0x00000000>;
-            lcd_gamma_en = <0x00000000>;
-            lcd_bright_curve_en = <0x00000000>;
-            lcd_cmap_en = <0x00000000>;
-            lcd_bl_en = <0x00000030 0x00000007 0x0000000a 0x00000001 0x00000000 0xffffffff 0x00000001>;
-            lcd_bl_en_power = "none";
-            lcd_power = "vcc-mipi";
-            lcd_fix_power = "vcc-dsi-33";
-            lcd_gpio_0 = <0x00000030 0x00000003 0x00000018 0x00000001 0x00000000 0xffffffff 0x00000001>;
+            status = "okay";
         };
         hdmi@01ee0000 {
             compatible = "allwinner,sunxi-hdmi";
             reg = <0x00000000 0x01ee0000 0x00000000 0x00020000>;
             clocks = <0x0000006f 0x00000070>;
             device_type = "hdmi";
-            status = "okay";
             hdmi_power = "vcc-hdmi-33";
             hdmi_hdcp_enable = <0x00000000>;
             hdmi_cts_compatibility = <0x00000000>;
+            hdmi_hpd_mask = <0x00000100>;
+            status = "okay";
         };
         tr@01000000 {
             compatible = "allwinner,sun50i-tr";
@@ -2094,9 +2048,6 @@
         boot_disp {
             compatible = "allwinner,boot_disp";
             device_type = "boot_disp";
-            output_disp = <0x00000000>;
-            output_type = <0x00000003>;
-            output_mode = <0x0000000a>;
         };
         cci@0x01cb3000 {
             compatible = "allwinner,sunxi-csi_cci";
@@ -2421,24 +2372,18 @@
             compatible = "allwinner,budget_cooling";
             #cooling-cells = <0x00000002>;
             status = "okay";
-            state_cnt = <0x00000008>;
+            state_cnt = <0x0000000a>;
             cluster_num = <0x00000001>;
-                     /*  1152000   4 cores */
             state0 = <0x00119400 0x00000004>;
-                     /*  1008000   4 cores */
-            state1 = <0x000f6180 0x00000004>;
-                     /*   912000   4 cores */
-            state2 = <0x000dea80 0x00000004>;
-                     /*   816000   4 cores */
-            state3 = <0x000c7380 0x00000004>;
-                     /*   720000   4 cores */
-            state4 = <0x000afc80 0x00000004>;
-                     /*   624000   3 cores */
-            state5 = <0x00098580 0x00000003>;
-                     /*   528000   2 cores */
-            state6 = <0x00080e80 0x00000002>;
-                     /*   480000    1 core */
-            state7 = <0x00075300 0x00000001>;
+            state1 = <0x0010d880 0x00000004>;
+            state2 = <0x00101d00 0x00000004>;
+            state3 = <0x000f6180 0x00000004>;
+            state4 = <0x000ea600 0x00000004>;
+            state5 = <0x000dea80 0x00000004>;
+            state6 = <0x000c7380 0x00000004>;
+            state7 = <0x0009e340 0x00000004>;
+            state8 = <0x0009e340 0x00000002>;
+            state9 = <0x0009e340 0x00000001>;
             linux,phandle = <0x00000087>;
             phandle = <0x00000087>;
         };
@@ -2562,8 +2507,8 @@
             interrupt-names = "gmacirq";
             clocks = <0x0000008f>;
             clock-names = "gmac";
-            phy-mode = "rmii";
-            tx-delay = <0x00000000>;
+            phy-mode = "rgmii";
+            tx-delay = <0x00000003>;
             rx-delay = <0x00000000>;
             gmac_power1 = "axp81x_dc1sw:0";
             status = "okay";
@@ -2866,8 +2811,7 @@
             compatible = "arm,cortex-a53", "arm,armv8";
             reg = <0x00000000 0x00000000>;
             enable-method = "psci";
-         /* CPU Frequencies    408000     480000     504000     528000     576000     600000     624000     648000     672000     720000     768000     816000     864000     912000     960000    1008000    1056000    1104000    1152000    1200000    1344000 */
-            cpufreq_tbl = <0x000639C0 0x00075300 0x0007b0c0 0x00080e80 0x0008ca00 0x000927c0 0x00098580 0x0009e340 0x000a4100 0x000afc80 0x000bb800 0x000c7380 0x000d2f00 0x000dea80 0x000ea600 0x000f6180 0x00101d00 0x0010d880 0x00119400 0x00124f80 0x00148200>;
+            cpufreq_tbl = <0x00075300 0x000927c0 0x000afc80 0x000c7380 0x000dea80 0x000ea600 0x000f6180 0x00101d00 0x0010d880 0x00119400 0x00124f80 0x00148200>;
             clock-latency = <0x001e8480>;
             clock-frequency = <0x3c14dc00>;
             cpu-idle-states = <0x00000090 0x00000091 0x00000092>;
