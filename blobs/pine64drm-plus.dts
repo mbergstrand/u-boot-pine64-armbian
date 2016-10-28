@@ -2612,8 +2612,9 @@
         ctp {
             device_type = "ctp";
             compatible = "allwinner,sun50i-ctp-para";
-            status = "disabled";
-            ctp_name = "gt911_DB";
+            status = "okay";
+            gtp_used = <0x1>;
+            ctp_name = "gt911_DB2";
             ctp_twi_id = <0x00000000>;
             ctp_twi_addr = <0x00000040>;
             ctp_screen_max_x = <0x00000400>;

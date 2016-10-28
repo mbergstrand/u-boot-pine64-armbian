@@ -1940,8 +1940,8 @@
             device_type = "disp";
             disp_init_enable = <0x00000001>;
             disp_mode = <0x00000000>;
-            screen0_output_type = <0x00000003>;
-            screen0_output_mode = <0x0000000a>;
+            screen0_output_type = <0x00000001>;
+            screen0_output_mode = <0x00000004>;
             screen1_output_type = <0x00000003>;
             screen1_output_mode = <0x0000000a>;
             fb0_format = <0x00000000>;
@@ -1956,7 +1956,7 @@
             pinctrl-names = "active", "sleep";
             status = "okay";
             device_type = "lcd0";
-            lcd_used = <0x00000000>;
+            lcd_used = <0x00000001>;
             lcd_driver_name = "mb709_mipi";
             lcd_backlight = <0x00000032>;
             lcd_if = <0x00000004>;
@@ -2095,8 +2095,8 @@
             compatible = "allwinner,boot_disp";
             device_type = "boot_disp";
             output_disp = <0x00000000>;
-            output_type = <0x00000003>;
-            output_mode = <0x0000000a>;
+            output_type = <0x00000001>;
+            output_mode = <0x00000004>;
         };
         cci@0x01cb3000 {
             compatible = "allwinner,sunxi-csi_cci";
@@ -2667,8 +2667,9 @@
         ctp {
             device_type = "ctp";
             compatible = "allwinner,sun50i-ctp-para";
-            status = "disabled";
-            ctp_name = "gt911_DB";
+            status = "okay";
+            ctp_used = <0x1>;
+            ctp_name = "gt911_DB2";
             ctp_twi_id = <0x00000000>;
             ctp_twi_addr = <0x00000040>;
             ctp_screen_max_x = <0x00000400>;
